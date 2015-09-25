@@ -3,9 +3,10 @@ MAINTAINER WeiLiang Qian <gliese.q@gmail.com>
 LABEL Description="Base image for geographic raster data authorization."
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV WORK_DIR /tmp/Droid/
-ENV SOURCE_DIR /tmp/Vanilla
-ENV TARGET_DIR /tmp/Stage 
+ENV HOME_DIR /tmp
+ENV WORK_DIR $HOME_DIR/Droid
+ENV SOURCE_DIR $HOME_DIR/Vanilla
+ENV TARGET_DIR $HOME_DIR/Stage 
 
 
 # Update source list in China
@@ -30,15 +31,17 @@ RUN gdalinfo --version && \
     make --version
 
 
-# initialize directories
+# Setup working environment
 RUN mkdir -p $WORK_DIR $SOURCE_DIR $TARGET_DIR
 
-# copy authorization scripts during building child images
+# copy scripts
 ONBUILD COPY Makefile $WORK_DIR
+
+WORKDIR $WORK_DIR
 
 # setup data volumes
 VOLUME ["$SOURCE_DIR", "$TARGET_DIR"]
 
-
-CMD ["echo", "Stonemason Droid Base Image\n"]
+ENTRYPOINT ["make"]
+CMD ["--help"]
 
