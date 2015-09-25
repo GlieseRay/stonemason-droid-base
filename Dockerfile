@@ -37,7 +37,7 @@ RUN mkdir -p $WORK_DIR $SOURCE_DIR $TARGET_DIR
 ONBUILD COPY Makefile $WORK_DIR
 
 # setup data volumes
-VOLUME ["$SOURCE_DIR", "TARGET_DIR"]
+VOLUME ["$SOURCE_DIR", "$TARGET_DIR"]
 
 
 ENTRYPOINT ["echo"]
