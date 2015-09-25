@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV HOME_DIR /tmp
 ENV WORK_DIR $HOME_DIR/Droid
 ENV SOURCE_DIR $HOME_DIR/Vanilla
-ENV TARGET_DIR $HOME_DIR/Stage 
+ENV TARGET_DIR $HOME_DIR/Stage
 
 
 # Update source list in China
@@ -35,7 +35,7 @@ RUN gdalinfo --version && \
 RUN mkdir -p $WORK_DIR $SOURCE_DIR $TARGET_DIR
 
 # copy scripts
-ONBUILD COPY Makefile $WORK_DIR
+ONBUILD COPY Makefile $WORK_DIR/
 
 WORKDIR $WORK_DIR
 
