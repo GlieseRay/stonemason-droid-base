@@ -40,6 +40,5 @@ ONBUILD COPY Makefile $WORK_DIR
 VOLUME ["$SOURCE_DIR", "$TARGET_DIR"]
 
 
-ENTRYPOINT ["echo"]
-CMD ["Stonemason Droid Base Image\n"]
+CMD ["echo", "Stonemason Droid Base Image\n"]
 
