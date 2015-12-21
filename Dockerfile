@@ -3,10 +3,6 @@ MAINTAINER WeiLiang Qian <gliese.q@gmail.com>
 LABEL Description="Base image for geo data authorization."
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV HOME_DIR /tmp
-ENV WORK_DIR $HOME_DIR/Droid
-ENV SOURCE_DIR $HOME_DIR/Vanilla
-ENV TARGET_DIR $HOME_DIR/Stage
 
 RUN locale-gen en_US.UTF-8
 ENV LANG=en_US.UTF-8 \
