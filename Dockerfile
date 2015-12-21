@@ -1,25 +1,43 @@
 FROM ubuntu:14.04
 MAINTAINER WeiLiang Qian <gliese.q@gmail.com>
-LABEL Description="Base image for geographic raster data authorization."
+LABEL Description="Base image for geo data authorization."
 
 ENV DEBIAN_FRONTEND noninteractive
+ENV HOME_DIR /tmp
+ENV WORK_DIR $HOME_DIR/Droid
+ENV SOURCE_DIR $HOME_DIR/Vanilla
+ENV TARGET_DIR $HOME_DIR/Stage
+
+RUN locale-gen en_US.UTF-8
+ENV LANG=en_US.UTF-8 \
+    LANGUAGE=en_US:en \
+    LC_ALL=en_US.UTF-8
 
 
-RUN cp /etc/apt/sources.list /etc/apt/sources.list.back && \
-    sed -i s/archive.ubuntu.com/mirrors.aliyun.com/ /etc/apt/sources.list
-RUN cat /etc/apt/sources.list
-
-
-# Install dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN set -x \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
+    wget \
     gdal-bin \
     make \
     python-gdal \
     python-pip  \
+    postgresql-client \
+    postgresql-client-common \
+    postgis \
     && pip install awscli
 
-# Check Installation
-RUN gdalinfo --version && \
-    aws --version && \
-    make --version
+WORKDIR /root
+
+RUN set -x \
+    && wget http://imposm.org/static/rel/imposm3-0.1dev-20150515-593f252-linux-x86-64.tar.gz \
+    && tar xzf imposm3-0.1dev-20150515-593f252-linux-x86-64.tar.gz
+
+ENV PATH=/root/imposm3-0.1dev-20150515-593f252-linux-x86-64:$PATH
+
+
+RUN set -x \
+    && python -c 'import gdal; print("GDAL Version:", gdal.VersionInfo())' \
+    && imposm3 version \
+    && psql --version
 
