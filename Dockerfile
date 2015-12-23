@@ -28,11 +28,13 @@ ENV         LANG=en_US.UTF-8 \
             LANGUAGE=en_US:en \
             LC_ALL=en_US.UTF-8
 
-WORKDIR     /root
+ENV	    DROID_HOME=/var/lib/droid/
+
+WORKDIR     $DROID_HOME
 
 RUN         curl -sSL http://imposm.org/static/rel/imposm3-0.1dev-20150515-593f252-linux-x86-64.tar.gz | tar xfz -
 
-ENV         PATH=/root/imposm3-0.1dev-20150515-593f252-linux-x86-64:$PATH
+ENV         PATH=$DROID_HOME/imposm3-0.1dev-20150515-593f252-linux-x86-64:$PATH
 
 RUN         set -x \
             && python -c 'import gdal; print("GDAL Version:", gdal.VersionInfo())' \
