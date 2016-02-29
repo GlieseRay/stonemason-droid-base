@@ -2,18 +2,13 @@ FROM        debian:jessie
 MAINTAINER  WeiLiang Qian <gliese.q@gmail.com>
 LABEL       Description="Base image for geo data authorization."
 
-ENV         DEBIAN_FRONTEND noninteractive \
-            LANG=en_US.UTF-8 \
-            LANGUAGE=en_US:en \
-            LC_ALL=en_US.UTF-8
+ENV         DEBIAN_FRONTEND noninteractive
 
-
-ENV         STONEMASON_DROID_HOME=/var/lib/droid/ \
-            PATH=$STONEMASON_DROID_HOME/bin:$PATH
+ENV         STONEMASON_DROID_HOME=/var/lib/droid/
 WORKDIR     $STONEMASON_DROID_HOME
 
 RUN         set -x \
-            \
+            && apt-get update \
 
             # setup locale
             && dpkg-reconfigure locales \
@@ -23,14 +18,13 @@ RUN         set -x \
             \
 
             # install components
-            && apt-get update \
             && apt-get install -y --no-install-recommends \
                 locales \
                 curl \
                 make \
                 gdal-bin \
                 python-gdal \
-                python-pip  \
+                python-pip \
                 postgresql-client \
                 postgresql-client-common \
                 postgis \
@@ -41,6 +35,11 @@ RUN         set -x \
             && mkdir -p bin \
             && curl -sSL http://cdn.masonmaps.me/dist/imposm/imposm3-0.1dev-20160128-bb3d003-linux-x86-64.tar.gz | tar xfz - \
             && ln -sf `pwd`/imposm3-0.1dev-20160128-bb3d003-linux-x86-64/* bin/
+
+ENV         LANG=en_US.UTF-8 \
+            LANGUAGE=en_US:en \
+            LC_ALL=en_US.UTF-8 \
+            PATH=$STONEMASON_DROID_HOME/bin:$PATH
 
 COPY        docker-init.sh ./
 
