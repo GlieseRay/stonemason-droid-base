@@ -8,16 +8,10 @@ ENV         STONEMASON_DROID_HOME=/var/lib/droid/
 WORKDIR     $STONEMASON_DROID_HOME
 
 RUN         set -x \
-            && apt-get update \
-
-            # setup locale
-            && dpkg-reconfigure locales \
-            && /usr/sbin/update-locale LANG=C.UTF-8 \
-            && echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen \
-            && locale-gen \
             \
 
             # install components
+            && apt-get update \
             && apt-get install -y --no-install-recommends \
                 locales \
                 curl \
@@ -30,6 +24,12 @@ RUN         set -x \
                 postgis \
             && pip install awscli \
             \
+
+            # setup locale
+            && dpkg-reconfigure locales \
+            && /usr/sbin/update-locale LANG=C.UTF-8 \
+            && echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen \
+            && locale-gen \
 
             # setup imposm3
             && mkdir -p bin \
