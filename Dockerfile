@@ -33,7 +33,7 @@ RUN         set -x \
 
             # setup imposm3
             && mkdir -p bin \
-            && curl -sSL http://cdn.masonmaps.me/dist/imposm/imposm3-0.1dev-20160128-bb3d003-linux-x86-64.tar.gz | tar xfz - \
+            && curl -sSL http://cdn.knrdesign.co/dist/imposm/imposm3-0.1dev-20160128-bb3d003-linux-x86-64.tar.gz | tar xfz - \
             && ln -sf `pwd`/imposm3-0.1dev-20160128-bb3d003-linux-x86-64/* bin/
 
 ENV         LANG=en_US.UTF-8 \
