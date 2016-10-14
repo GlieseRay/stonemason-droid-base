@@ -28,7 +28,7 @@ if [ -z $PGPASSWORD ]; then
 fi
 
 echo "Checking database server..."
-until psql -w -c "\l"; do
+until psql -w -d postgres -c "\l"; do
   >&2 echo "Postgres is unavailable - sleeping"
   sleep 1
 done
