@@ -24,9 +24,14 @@ if [ -z $PGDATABASE ]; then
 fi
 
 if [ -z $PGPASSWORD ]; then
-    echo "Missing Database Password: Please set environment variable 'PGPASSWORD'";
-    exit 1
+    echo "Please set environment variable 'PGPASSWORD' if needed";
 fi
+
+echo "Checking database server..."
+until psql -w -c "\l"; do
+  >&2 echo "Postgres is unavailable - sleeping"
+  sleep 1
+done
 
 echo "Initialize Database..."
 if psql -lqt | cut -d \| -f 1 | grep -w " $PGDATABASE "; then
